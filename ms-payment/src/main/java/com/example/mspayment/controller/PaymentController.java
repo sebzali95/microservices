@@ -1,12 +1,14 @@
 package com.example.mspayment.controller;
-
+import com.example.mspayment.model.request.PaymentCriteria;
 import com.example.mspayment.model.request.PaymentRequest;
+import com.example.mspayment.model.response.PageablePaymentResponse;
 import com.example.mspayment.model.response.PaymentResponse;
 import com.example.mspayment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -15,15 +17,19 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @PostMapping("")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void savePayment(@RequestBody PaymentRequest request) {
+    public void savePayment(@Valid @RequestBody PaymentRequest request) {
         paymentService.savePayment(request);
     }
 
     @GetMapping
-    public List<PaymentResponse> getAllPayments() {
-        return paymentService.getAllPayments();
+    public PageablePaymentResponse getAllPayments(@RequestParam int page,
+                                                  @RequestParam int count,
+                                                  PaymentCriteria paymentCriteria) {
+        System.out.println(paymentService.getAllPayments(page, count, paymentCriteria));
+        return paymentService.getAllPayments(page, count, paymentCriteria);
+
     }
 
     @GetMapping("/{id}")
@@ -32,7 +38,7 @@ public class PaymentController {
     }
 
     @PutMapping("/edit/{id}")
-    public void updatePayment(@PathVariable Long id, @RequestBody PaymentRequest paymentRequest) {
+    public void updatePayment(@Valid@PathVariable Long id, @RequestBody PaymentRequest paymentRequest) {
         paymentService.updatePayment(id, paymentRequest);
     }
 

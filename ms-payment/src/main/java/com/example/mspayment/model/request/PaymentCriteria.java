@@ -1,4 +1,4 @@
-package com.example.mscountry.model;
+package com.example.mspayment.model.request;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,8 +10,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CountryResponse {
+public class PaymentCriteria {
 
-    String name;
-    BigDecimal remainingLimit;
+    BigDecimal amountFrom;
+    BigDecimal amountTo;
+    String description;
 }
